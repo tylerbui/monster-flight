@@ -6,6 +6,24 @@
 /out-tsc
 /bazel-out
 
+# Firebase 
+.firebase/
+.firebaserc
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# ENV Files 
+/src/environments/environment.ts
+/src/environments/environment.prod.ts
+
+# Keep the template
+!/src/environments/environment.example.ts
+
+# Local ENV 
+.env
+.env.local
+
 # Node
 /node_modules
 npm-debug.log

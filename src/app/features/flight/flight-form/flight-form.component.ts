@@ -2,19 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FlightApiService } from '../../../core/services/flight-api';
-import { AuthService } from '../../../core/services/auth';
+import { FlightApiService } from '../../../core/services/flight-api.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { SubmissionStatus } from '../../../shared/models/flight-info';
 
 @Component({
   selector: 'app-flight-form',
-  standalone: true, // ← ADD THIS
-  imports: [
-    CommonModule, // ← needed for *ngIf, *ngFor
-    ReactiveFormsModule, // ← needed for formGroup, formControlName
-  ],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './flight-form.component.html',
-  styleUrls: ['./flight-form.component.scss'],
+  styleUrl: './flight-form.component.scss',
 })
 export class FlightFormComponent implements OnInit {
   flightForm!: FormGroup;

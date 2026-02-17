@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../core/services/auth';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-success',
-  templateUrl: './success.html',
-  styleUrls: ['./success.scss'],
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './success.component.html',
+  styleUrl: './success.component.scss',
 })
 export class SuccessComponent {
   constructor(

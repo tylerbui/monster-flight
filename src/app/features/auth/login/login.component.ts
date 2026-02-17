@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../../core/services/auth';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.html',
-  styleUrls: ['./login.scss'],
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
   loading = false;

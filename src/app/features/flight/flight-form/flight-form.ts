@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FlightApiService } from '../../../core/services/flight-api';
 import { AuthService } from '../../../core/services/auth';
@@ -7,6 +8,11 @@ import { SubmissionStatus } from '../../../shared/models/flight-info';
 
 @Component({
   selector: 'app-flight-form',
+  standalone: true, // ← ADD THIS
+  imports: [
+    CommonModule, // ← needed for *ngIf, *ngFor
+    ReactiveFormsModule, // ← needed for formGroup, formControlName
+  ],
   templateUrl: './flight-form.component.html',
   styleUrls: ['./flight-form.component.scss'],
 })
@@ -16,10 +22,8 @@ export class FlightFormComponent implements OnInit {
   errorMessage = '';
   currentUser: any = null;
 
-  // Expose enum to template
   Status = SubmissionStatus;
 
-  // Popular airlines for dropdown
   airlines = [
     'American Airlines',
     'Delta Air Lines',
@@ -41,8 +45,6 @@ export class FlightFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
-
-    // Get current user info
     this.authService.getCurrentUser().subscribe((user) => {
       this.currentUser = user;
     });
@@ -53,13 +55,7 @@ export class FlightFormComponent implements OnInit {
       airline: ['', [Validators.required]],
       arrivalDate: ['', [Validators.required]],
       arrivalTime: ['', [Validators.required]],
-      flightNumber: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(/^[A-Z]{2}\d{1,4}$/i), // AA1234 format
-        ],
-      ],
+      flightNumber: ['', [Validators.required, Validators.pattern(/^[A-Z]{2}\d{1,4}$/i)]],
       numOfGuests: [1, [Validators.required, Validators.min(1), Validators.max(100)]],
       comments: [''],
     });
@@ -76,13 +72,11 @@ export class FlightFormComponent implements OnInit {
 
     try {
       const payload = this.flightApiService.formatPayload(this.flightForm.value);
-
       const response = await this.flightApiService.submitFlightInfo(payload).toPromise();
 
       console.log('Submission successful:', response);
       this.submissionStatus = SubmissionStatus.SUCCESS;
 
-      // Navigate to success page after short delay
       setTimeout(() => {
         this.router.navigate(['/success']);
       }, 1500);
@@ -106,16 +100,24 @@ export class FlightFormComponent implements OnInit {
   }
 
   resetForm(): void {
-    this.flightForm.reset({
-      numOfGuests: 1,
-    });
+    this.flightForm.reset({ numOfGuests: 1 });
     this.submissionStatus = SubmissionStatus.IDLE;
     this.errorMessage = '';
   }
 
-  // Getter helpers for template
   get f() {
     return this.flightForm.controls;
+  }
+
+  // Auto uppercase flight number as user types
+  onFlightNumberInput(event: any): void {
+    const value = event.target.value.toUpperCase();
+    this.flightForm.get('flightNumber')?.setValue(value, { emitEvent: false });
+  }
+
+  // Prevent past dates
+  get minDate(): string {
+    return new Date().toISOString().split('T')[0];
   }
 
   isFieldInvalid(fieldName: string): boolean {
@@ -123,22 +125,17 @@ export class FlightFormComponent implements OnInit {
     return !!(field && field.invalid && field.touched);
   }
 
+  isFieldValid(fieldName: string): boolean {
+    const field = this.flightForm.get(fieldName);
+    return !!(field && field.valid && field.touched);
+  }
+
   getErrorMessage(fieldName: string): string {
     const control = this.flightForm.get(fieldName);
-
-    if (control?.hasError('required')) {
-      return `${fieldName} is required`;
-    }
-    if (control?.hasError('min')) {
-      return `Minimum value is ${control.errors?.['min'].min}`;
-    }
-    if (control?.hasError('max')) {
-      return `Maximum value is ${control.errors?.['max'].max}`;
-    }
-    if (control?.hasError('pattern')) {
-      return 'Invalid format (e.g., AA1234)';
-    }
-
+    if (control?.hasError('required')) return `${fieldName} is required`;
+    if (control?.hasError('min')) return `Minimum value is ${control.errors?.['min'].min}`;
+    if (control?.hasError('max')) return `Maximum value is ${control.errors?.['max'].max}`;
+    if (control?.hasError('pattern')) return 'Invalid format (e.g., AA1234)';
     return '';
   }
 }

@@ -4,8 +4,8 @@ import { AuthService } from '../../../core/services/auth';
 
 @Component({
   selector: 'app-success',
-  templateUrl: './success.component.html',
-  styleUrls: ['./success.component.scss'],
+  templateUrl: './success.html',
+  styleUrls: ['./success.scss'],
 })
 export class SuccessComponent {
   constructor(

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { GoogleAuthProvider } from 'firebase/auth';
+import firebase from 'firebase/compat/app';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -9,7 +10,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AuthService {
-  user$: Observable<any>;
+  user$: Observable<firebase.User | null>;
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -47,7 +48,7 @@ export class AuthService {
     return this.user$.pipe(map((user) => !!user));
   }
 
-  getCurrentUser(): Observable<any> {
+  getCurrentUser(): Observable<firebase.User | null> {
     return this.user$;
   }
 }

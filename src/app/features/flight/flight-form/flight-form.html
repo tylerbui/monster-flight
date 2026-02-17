@@ -1,0 +1,126 @@
+<div class="flight-form-container">
+  <div class="header">
+    <div class="header-content">
+      <h1>Flight Information Form</h1>
+      <div class="user-section">
+        <span class="user-email" *ngIf="currentUser">
+          {{ currentUser.email }}
+        </span>
+        <button class="logout-btn" (click)="logout()">Sign Out</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-card">
+    <form [formGroup]="flightForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="airline">Airline *</label>
+        <select id="airline" formControlName="airline" [class.invalid]="isFieldInvalid('airline')">
+          <option value="">Select an airline</option>
+          <option *ngFor="let airline of airlines" [value]="airline">
+            {{ airline }}
+          </option>
+        </select>
+        <span class="error-text" *ngIf="isFieldInvalid('airline')">
+          {{ getErrorMessage('airline') }}
+        </span>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="arrivalDate">Arrival Date *</label>
+          <input
+            type="date"
+            id="arrivalDate"
+            formControlName="arrivalDate"
+            [class.invalid]="isFieldInvalid('arrivalDate')"
+          />
+          <span class="error-text" *ngIf="isFieldInvalid('arrivalDate')">
+            {{ getErrorMessage('arrivalDate') }}
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="arrivalTime">Arrival Time *</label>
+          <input
+            type="time"
+            id="arrivalTime"
+            formControlName="arrivalTime"
+            [class.invalid]="isFieldInvalid('arrivalTime')"
+          />
+          <span class="error-text" *ngIf="isFieldInvalid('arrivalTime')">
+            {{ getErrorMessage('arrivalTime') }}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="flightNumber">Flight Number *</label>
+          <input
+            type="text"
+            id="flightNumber"
+            formControlName="flightNumber"
+            placeholder="e.g., AA1234"
+            [class.invalid]="isFieldInvalid('flightNumber')"
+          />
+          <span class="error-text" *ngIf="isFieldInvalid('flightNumber')">
+            {{ getErrorMessage('flightNumber') }}
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="numOfGuests">Number of Guests *</label>
+          <input
+            type="number"
+            id="numOfGuests"
+            formControlName="numOfGuests"
+            min="1"
+            max="100"
+            [class.invalid]="isFieldInvalid('numOfGuests')"
+          />
+          <span class="error-text" *ngIf="isFieldInvalid('numOfGuests')">
+            {{ getErrorMessage('numOfGuests') }}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="comments">Additional Comments (Optional)</label>
+        <textarea
+          id="comments"
+          formControlName="comments"
+          rows="4"
+          placeholder="Any special requests or notes..."
+        ></textarea>
+      </div>
+
+      <div class="button-group">
+        <button type="submit" class="submit-btn" [disabled]="submissionStatus === Status.LOADING">
+          <span *ngIf="submissionStatus === Status.IDLE">Submit Flight Info</span>
+          <span *ngIf="submissionStatus === Status.LOADING">
+            <span class="spinner"></span> Submitting...
+          </span>
+          <span *ngIf="submissionStatus === Status.SUCCESS">✓ Submitted!</span>
+        </button>
+
+        <button
+          type="button"
+          class="reset-btn"
+          (click)="resetForm()"
+          *ngIf="submissionStatus !== Status.LOADING"
+        >
+          Reset Form
+        </button>
+      </div>
+
+      <div class="alert alert-error" *ngIf="submissionStatus === Status.ERROR">
+        {{ errorMessage }}
+      </div>
+
+      <div class="alert alert-success" *ngIf="submissionStatus === Status.SUCCESS">
+        ✓ Flight information submitted successfully! Redirecting...
+      </div>
+    </form>
+  </div>
+</div>

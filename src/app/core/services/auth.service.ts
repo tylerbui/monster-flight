@@ -1,8 +1,6 @@
-import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Injectable, inject } from '@angular/core';
+import { Auth, authState, signInWithPopup, signOut, GoogleAuthProvider, User } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { GoogleAuthProvider } from 'firebase/auth';
-import firebase from 'firebase/compat/app';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -10,19 +8,15 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AuthService {
-  user$: Observable<firebase.User | null>;
+  private auth = inject(Auth);
+  private router = inject(Router);
 
-  constructor(
-    private afAuth: AngularFireAuth,
-    private router: Router,
-  ) {
-    this.user$ = this.afAuth.authState;
-  }
+  user$: Observable<User | null> = authState(this.auth);
 
   async signInWithGoogle(): Promise<void> {
     try {
       const provider = new GoogleAuthProvider();
-      const result = await this.afAuth.signInWithPopup(provider);
+      const result = await signInWithPopup(this.auth, provider);
 
       if (result.user) {
         console.log('Login successful:', result.user.email);
@@ -36,7 +30,7 @@ export class AuthService {
 
   async signOut(): Promise<void> {
     try {
-      await this.afAuth.signOut();
+      await signOut(this.auth);
       this.router.navigate(['/login']);
     } catch (error) {
       console.error('Logout error:', error);
@@ -48,7 +42,7 @@ export class AuthService {
     return this.user$.pipe(map((user) => !!user));
   }
 
-  getCurrentUser(): Observable<firebase.User | null> {
+  getCurrentUser(): Observable<User | null> {
     return this.user$;
   }
 }

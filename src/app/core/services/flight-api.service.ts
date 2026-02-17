@@ -36,8 +36,7 @@ export class FlightApiService {
     };
   }
 
-  private formatDate(date: Date): string {
-    // Convert to ISO string or custom format
-    return date.toISOString().split('T')[0]; // YYYY-MM-DD format
+  private formatDate(date: string): string {
+    return new Date(date).toISOString().split('T')[0];
   }
 }

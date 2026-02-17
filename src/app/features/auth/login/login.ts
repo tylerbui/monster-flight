@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  templateUrl: './login.html',
+  styleUrls: ['./login.scss'],
 })
 export class LoginComponent implements OnInit {
   loading = false;

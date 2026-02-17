@@ -1,0 +1,19 @@
+<div class="success-container">
+  <div class="success-card">
+    <div class="checkmark-circle">
+      <svg class="checkmark" viewBox="0 0 52 52">
+        <circle class="checkmark-circle-bg" cx="26" cy="26" r="25" fill="none" />
+        <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+      </svg>
+    </div>
+
+    <h1>Success!</h1>
+    <p class="message">Your flight information has been successfully submitted.</p>
+    <p class="sub-message">You're all set! You can now submit another form or sign out.</p>
+
+    <div class="action-buttons">
+      <button class="primary-btn" (click)="submitAnother()">Submit Another Flight</button>
+      <button class="secondary-btn" (click)="logout()">Sign Out</button>
+    </div>
+  </div>
+</div>

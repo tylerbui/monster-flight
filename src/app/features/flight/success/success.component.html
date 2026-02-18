@@ -8,7 +8,30 @@
     </div>
 
     <h1>Success!</h1>
-    <p class="message">Your flight information has been successfully submitted.</p>
+
+    <div class="flight-summary" *ngIf="flight">
+      <p class="summary-heading">Flight {{ flight.flightNumber }} confirmed</p>
+      <dl class="summary-details">
+        <div class="detail-row">
+          <dt>Airline</dt>
+          <dd>{{ flight.airline }}</dd>
+        </div>
+        <div class="detail-row">
+          <dt>Arrival</dt>
+          <dd>{{ formatDate(flight.arrivalDate) }} at {{ flight.arrivalTime }}</dd>
+        </div>
+        <div class="detail-row">
+          <dt>Guests</dt>
+          <dd>{{ flight.numOfGuests }}</dd>
+        </div>
+        <div class="detail-row" *ngIf="flight.comments">
+          <dt>Comments</dt>
+          <dd>{{ flight.comments }}</dd>
+        </div>
+      </dl>
+    </div>
+
+    <p class="message" *ngIf="!flight">Your flight information has been successfully submitted.</p>
     <p class="sub-message">You're all set! You can now submit another form or sign out.</p>
 
     <div class="action-buttons">

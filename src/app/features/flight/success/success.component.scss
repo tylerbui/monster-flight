@@ -60,6 +60,50 @@
     margin-bottom: 16px;
   }
 
+  .flight-summary {
+    text-align: left;
+    background: #f9fafb;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 12px;
+
+    .summary-heading {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .summary-details {
+      margin: 0;
+
+      .detail-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid #eee;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        dt {
+          font-size: 14px;
+          color: #999;
+          font-weight: 500;
+        }
+
+        dd {
+          font-size: 14px;
+          color: #333;
+          margin: 0;
+          text-align: right;
+        }
+      }
+    }
+  }
+
   .message {
     font-size: 18px;
     color: #666;

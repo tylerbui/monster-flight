@@ -33,6 +33,7 @@
             type="date"
             id="arrivalDate"
             formControlName="arrivalDate"
+            [min]="minDate"
             [class.invalid]="isFieldInvalid('arrivalDate')"
           />
           <span class="error-text" *ngIf="isFieldInvalid('arrivalDate')">
@@ -62,6 +63,7 @@
             id="flightNumber"
             formControlName="flightNumber"
             placeholder="e.g., AA1234"
+            (input)="onFlightNumberInput($event)"
             [class.invalid]="isFieldInvalid('flightNumber')"
           />
           <span class="error-text" *ngIf="isFieldInvalid('flightNumber')">

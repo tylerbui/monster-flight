@@ -1,59 +1,68 @@
-# MonsterFlight
+# Monster Flight
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.4.
+A flight information submission app built as a coding challenge deliverable. Users authenticate via Firebase, fill out a flight details form, and submit the data to a remote API endpoint.
 
-## Development server
+## Tech Stack
 
-To start a local development server, run:
+- **Framework:** Angular 21 (Standalone Components)
+- **Auth:** Firebase Authentication (Email/Password + Google OAuth)
+- **Styling:** Tailwind CSS + SCSS
+- **Build:** Vite via Angular CLI
+- **Forms:** Reactive Forms
+- **Testing:** Vitest
 
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Quick Start
 
 ```bash
-ng generate component component-name
+git clone <repo-url>
+cd monster-flight
+npm install
+npm start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Open `http://localhost:4200` — you'll land on the login page.
 
-```bash
-ng generate --help
+## Authentication
+
+You can authenticate in two ways:
+
+1. **Create an account** — click "Create one" on the login page and register with any email/password
+2. **Google Sign-In** — click "Continue with Google"
+
+Once authenticated, you'll be redirected to the flight information form.
+
+## How It Works
+
+1. User logs in or registers
+2. Protected route guard redirects authenticated users to the flight form
+3. User fills out flight details (airline, date, time, flight number, guests, optional comments)
+4. On submit, a POST request is sent to the challenge API with the required `token` and `candidate` headers
+5. User sees success/error feedback and is redirected to a confirmation page on success
+
+## Environment Configuration
+
+The environment files (`environment.ts`, `environment.prod.ts`) are committed directly to this repository. This is intentional for the challenge deliverable so reviewers can clone and run the app with zero setup.
+
+**In a production application**, sensitive configuration (API keys, tokens, etc.) would be managed via environment variables using a `.env` file with a dotenv loader (e.g., `dotenv` + a custom webpack/vite plugin) to keep secrets out of source control. The `.env` file would be gitignored and each environment (dev, staging, prod) would have its own configuration injected at build time or runtime.
+
+For this project, that approach was not used because:
+- Firebase client-side API keys are [designed to be public](https://firebase.google.com/docs/projects/api-keys) — they're scoped by Firebase Security Rules, not secrecy
+- The API token is specific to this coding challenge
+- Zero-friction setup provides the best reviewer experience
+
+A reference template is available at `src/environments/environment.example.ts` for developers who want to set up their own Firebase project.
+
+## Project Structure
+
 ```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
+src/app/
+  core/
+    guards/        # Route guards (auth)
+    services/      # Auth service, Flight API service
+  features/
+    auth/login/    # Login/Register component
+    flight/
+      flight-form/ # Flight details form
+      success/     # Submission confirmation page
+  shared/models/   # TypeScript interfaces & enums
 ```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

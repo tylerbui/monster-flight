@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 import { FlightApiService } from '../../../core/services/flight-api.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { SubmissionStatus } from '../../../shared/models/flight-info';
@@ -69,7 +70,7 @@ export class FlightFormComponent implements OnInit {
 
     try {
       const payload = this.flightApiService.formatPayload(this.flightForm.value);
-      const response = await this.flightApiService.submitFlightInfo(payload).toPromise();
+      const response = await firstValueFrom(this.flightApiService.submitFlightInfo(payload));
 
       console.log('Submission successful:', response);
       this.submissionStatus = SubmissionStatus.SUCCESS;

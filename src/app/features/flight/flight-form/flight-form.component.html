@@ -15,7 +15,7 @@
     <form [formGroup]="flightForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="airline">Airline *</label>
-        <select id="airline" formControlName="airline" [class.invalid]="isFieldInvalid('airline')">
+        <select id="airline" formControlName="airline" aria-label="Select airline" [attr.aria-invalid]="isFieldInvalid('airline')" [class.invalid]="isFieldInvalid('airline')">
           <option value="">Select an airline</option>
           <option *ngFor="let airline of airlines" [value]="airline">
             {{ airline }}
@@ -33,7 +33,9 @@
             type="date"
             id="arrivalDate"
             formControlName="arrivalDate"
+            aria-label="Arrival date"
             [min]="minDate"
+            [attr.aria-invalid]="isFieldInvalid('arrivalDate')"
             [class.invalid]="isFieldInvalid('arrivalDate')"
           />
           <span class="error-text" *ngIf="isFieldInvalid('arrivalDate')">
@@ -47,6 +49,8 @@
             type="time"
             id="arrivalTime"
             formControlName="arrivalTime"
+            aria-label="Arrival time"
+            [attr.aria-invalid]="isFieldInvalid('arrivalTime')"
             [class.invalid]="isFieldInvalid('arrivalTime')"
           />
           <span class="error-text" *ngIf="isFieldInvalid('arrivalTime')">
@@ -63,7 +67,9 @@
             id="flightNumber"
             formControlName="flightNumber"
             placeholder="e.g., AA1234"
+            aria-label="Flight number"
             (input)="onFlightNumberInput($event)"
+            [attr.aria-invalid]="isFieldInvalid('flightNumber')"
             [class.invalid]="isFieldInvalid('flightNumber')"
           />
           <span class="error-text" *ngIf="isFieldInvalid('flightNumber')">
@@ -79,6 +85,8 @@
             formControlName="numOfGuests"
             min="1"
             max="100"
+            aria-label="Number of guests"
+            [attr.aria-invalid]="isFieldInvalid('numOfGuests')"
             [class.invalid]="isFieldInvalid('numOfGuests')"
           />
           <span class="error-text" *ngIf="isFieldInvalid('numOfGuests')">
@@ -93,6 +101,7 @@
           id="comments"
           formControlName="comments"
           rows="4"
+          aria-label="Additional comments"
           placeholder="Any special requests or notes..."
         ></textarea>
       </div>
@@ -116,11 +125,11 @@
         </button>
       </div>
 
-      <div class="alert alert-error" *ngIf="submissionStatus === Status.ERROR">
+      <div class="alert alert-error" role="alert" *ngIf="submissionStatus === Status.ERROR">
         {{ errorMessage }}
       </div>
 
-      <div class="alert alert-success" *ngIf="submissionStatus === Status.SUCCESS">
+      <div class="alert alert-success" role="status" *ngIf="submissionStatus === Status.SUCCESS">
         ✓ Flight information submitted successfully! Redirecting...
       </div>
     </form>

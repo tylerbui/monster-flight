@@ -72,14 +72,12 @@ export class FlightFormComponent implements OnInit {
       const payload = this.flightApiService.formatPayload(this.flightForm.value);
       const response = await firstValueFrom(this.flightApiService.submitFlightInfo(payload));
 
-      console.log('Submission successful:', response);
       this.submissionStatus = SubmissionStatus.SUCCESS;
 
       setTimeout(() => {
         this.router.navigate(['/success']);
       }, 1500);
     } catch (error: any) {
-      console.error('Submission error:', error);
       this.submissionStatus = SubmissionStatus.ERROR;
       this.errorMessage =
         error.error?.message || 'Failed to submit flight information. Please try again.';

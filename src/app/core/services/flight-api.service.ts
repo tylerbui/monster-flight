@@ -19,8 +19,6 @@ export class FlightApiService {
       candidate: environment.candidateName,
     });
 
-    console.log('Submitting flight info:', payload);
-
     return this.http.post(this.apiUrl, payload, { headers });
   }
 

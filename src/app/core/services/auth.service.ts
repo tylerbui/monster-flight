@@ -33,7 +33,6 @@ export class AuthService {
         this.router.navigate(['/flight-form']);
       }
     } catch (error) {
-      console.error('Google login error:', error);
       throw error;
     }
   }
@@ -45,7 +44,6 @@ export class AuthService {
         this.router.navigate(['/flight-form']);
       }
     } catch (error) {
-      console.error('Email login error:', error);
       throw error;
     }
   }
@@ -57,7 +55,6 @@ export class AuthService {
         this.router.navigate(['/flight-form']);
       }
     } catch (error) {
-      console.error('Register error:', error);
       throw error;
     }
   }
@@ -67,7 +64,6 @@ export class AuthService {
       await signOut(this.auth);
       this.router.navigate(['/login']);
     } catch (error) {
-      console.error('Logout error:', error);
       throw error;
     }
   }

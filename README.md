@@ -38,10 +38,11 @@ Once authenticated, you'll be redirected to the flight information form.
 3. User fills out flight details (airline, date, time, flight number, guests, optional comments)
 4. On submit, a POST request is sent to the challenge API with the required `token` and `candidate` headers
 5. User sees success/error feedback and is redirected to a confirmation page on success
+6. Confirmation page shows details of the recent submitted form and also 2 buttons (Submit another form/Sign Out)
 
 ## Environment Configuration
 
-The environment files (`environment.ts`, `environment.prod.ts`) are committed directly to this repository. This is intentional for the challenge deliverable so reviewers can clone and run the app with zero setup.
+The environment files (`environment.ts`, `environment.prod.ts`) are committed directly to this repository. This is intentional for the challenge deliverable so reviewers can clone and run the app.
 
 **In a production application**, sensitive configuration (API keys, tokens, etc.) would be managed via environment variables using a `.env` file with a dotenv loader (e.g., `dotenv` + a custom webpack/vite plugin) to keep secrets out of source control. The `.env` file would be gitignored and each environment (dev, staging, prod) would have its own configuration injected at build time or runtime.
 
@@ -50,7 +51,6 @@ For this project, that approach was not used because:
 - The API token is specific to this coding challenge
 - Zero-friction setup provides the best reviewer experience
 
-A reference template is available at `src/environments/environment.example.ts` for developers who want to set up their own Firebase project.
 
 ## Project Structure
 

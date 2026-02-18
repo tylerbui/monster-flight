@@ -11,6 +11,11 @@ A flight information submission app built as a coding challenge deliverable. Use
 - **Forms:** Reactive Forms
 - **Testing:** Vitest
 
+## Prerequisites
+
+- **Node.js 22+** — Angular 21 requires Node 22 or later. Check with `node -v`.
+- **npm 11+** — Comes bundled with Node 22.
+
 ## Quick Start
 
 ```bash

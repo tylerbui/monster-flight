@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { FirebaseError } from 'firebase/app';
 
 @Component({
   selector: 'app-login',
@@ -63,8 +64,8 @@ export class LoginComponent implements OnInit {
       } else {
         await this.authService.registerWithEmail(email, password);
       }
-    } catch (error: any) {
-      this.errorMessage = this.getFirebaseError(error.code);
+    } catch (error: unknown) {
+      this.errorMessage = this.getFirebaseError((error as FirebaseError).code);
     } finally {
       this.loading = false;
     }
@@ -75,8 +76,8 @@ export class LoginComponent implements OnInit {
     this.errorMessage = '';
     try {
       await this.authService.signInWithGoogle();
-    } catch (error: any) {
-      this.errorMessage = this.getFirebaseError(error.code);
+    } catch (error: unknown) {
+      this.errorMessage = this.getFirebaseError((error as FirebaseError).code);
     } finally {
       this.loading = false;
     }

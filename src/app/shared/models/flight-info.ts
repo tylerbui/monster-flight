@@ -9,17 +9,17 @@ export interface FlightInfoPayload {
 
 export interface FlightFormData {
   airline: string;
-  arrivalDate: Date;
+  arrivalDate: string;
   arrivalTime: string;
   flightNumber: string;
-  numOfGuests: number;
+  numOfGuests: number | string;
   comments: string;
 }
 
 export interface ApiResponse {
   success: boolean;
   message: string;
-  data?: any;
+  data?: Record<string, unknown>;
 }
 
 export enum SubmissionStatus {

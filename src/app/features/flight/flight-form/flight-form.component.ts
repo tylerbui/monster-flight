@@ -6,6 +6,8 @@ import { firstValueFrom } from 'rxjs';
 import { FlightApiService } from '../../../core/services/flight-api.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { SubmissionStatus } from '../../../shared/models/flight-info';
+import { HttpErrorResponse } from '@angular/common/http';
+import { User } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-flight-form',
@@ -18,7 +20,7 @@ export class FlightFormComponent implements OnInit {
   flightForm!: FormGroup;
   submissionStatus = SubmissionStatus.IDLE;
   errorMessage = '';
-  currentUser: any = null;
+  currentUser: User | null = null;
 
   Status = SubmissionStatus;
 
@@ -77,10 +79,11 @@ export class FlightFormComponent implements OnInit {
       setTimeout(() => {
         this.router.navigate(['/success'], { state: { flight: payload } });
       }, 1500);
-    } catch (error: any) {
+    } catch (error: unknown) {
       this.submissionStatus = SubmissionStatus.ERROR;
+      const httpError = error as HttpErrorResponse;
       this.errorMessage =
-        error.error?.message || 'Failed to submit flight information. Please try again.';
+        httpError.error?.message || 'Failed to submit flight information. Please try again.';
     }
   }
 
@@ -106,8 +109,8 @@ export class FlightFormComponent implements OnInit {
   }
 
   // Auto uppercase flight number as user types
-  onFlightNumberInput(event: any): void {
-    const value = event.target.value.toUpperCase();
+  onFlightNumberInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value.toUpperCase();
     this.flightForm.get('flightNumber')?.setValue(value, { emitEvent: false });
   }
 

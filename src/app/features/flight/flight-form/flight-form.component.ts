@@ -75,7 +75,7 @@ export class FlightFormComponent implements OnInit {
       this.submissionStatus = SubmissionStatus.SUCCESS;
 
       setTimeout(() => {
-        this.router.navigate(['/success']);
+        this.router.navigate(['/success'], { state: { flight: payload } });
       }, 1500);
     } catch (error: any) {
       this.submissionStatus = SubmissionStatus.ERROR;
@@ -126,9 +126,18 @@ export class FlightFormComponent implements OnInit {
     return !!(field && field.valid && field.touched);
   }
 
+  private readonly fieldLabels: Record<string, string> = {
+    airline: 'Airline',
+    arrivalDate: 'Arrival date',
+    arrivalTime: 'Arrival time',
+    flightNumber: 'Flight number',
+    numOfGuests: 'Number of guests',
+  };
+
   getErrorMessage(fieldName: string): string {
     const control = this.flightForm.get(fieldName);
-    if (control?.hasError('required')) return `${fieldName} is required`;
+    const label = this.fieldLabels[fieldName] || fieldName;
+    if (control?.hasError('required')) return `${label} is required`;
     if (control?.hasError('min')) return `Minimum value is ${control.errors?.['min'].min}`;
     if (control?.hasError('max')) return `Maximum value is ${control.errors?.['max'].max}`;
     if (control?.hasError('pattern')) return 'Invalid format (e.g., AA1234)';

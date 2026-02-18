@@ -1,6 +1,7 @@
 {
   "hosting": {
-    "public": "dist/monster-flight",
+    "target": "main-site",
+    "public": "dist/monster-flight/browser",
     "ignore": [
       "firebase.json",
       "**/.*",

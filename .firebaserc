@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "monster-flight-9e65d"
-  }
+  },
+  "targets": {
+    "monster-flight-9e65d": {
+      "hosting": {
+        "main-site": [
+          "monster-flights"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }

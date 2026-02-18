@@ -12,6 +12,8 @@
           type="email"
           formControlName="email"
           placeholder="you@example.com"
+          aria-label="Email address"
+          [attr.aria-invalid]="authForm.get('email')?.invalid && authForm.get('email')?.touched"
           [class.invalid]="authForm.get('email')?.invalid && authForm.get('email')?.touched"
         />
         <span
@@ -28,6 +30,8 @@
           type="password"
           formControlName="password"
           placeholder="Min. 6 characters"
+          aria-label="Password"
+          [attr.aria-invalid]="authForm.get('password')?.invalid && authForm.get('password')?.touched"
           [class.invalid]="authForm.get('password')?.invalid && authForm.get('password')?.touched"
         />
         <span
@@ -77,6 +81,6 @@
       </button>
     </p>
 
-    <div class="error-message" *ngIf="errorMessage">⚠️ {{ errorMessage }}</div>
+    <div class="error-message" role="alert" *ngIf="errorMessage">⚠️ {{ errorMessage }}</div>
   </div>
 </div>
